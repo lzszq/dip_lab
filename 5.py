@@ -28,7 +28,7 @@ def distance(func_type: str, img: np.ndarray, BGR_mean: list, value: np.ndarray)
     return value
 
 
-def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarray, is_area_fill: bool = False) -> np.ndarray:
+def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: int = 0) -> np.ndarray:
     BGR = [i for i in cv.split(img_source)]
     BGR_mean = [np.mean(i) for i in BGR]
     value = distance(func_type, img_source, BGR_mean, np.zeros_like(BGR[0]))
@@ -54,25 +54,27 @@ def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarr
                 result[i, j] = np.zeros_like(result[i, j])
 
     new_result = deepcopy(result)
-    if is_area_fill:
+    while fill_cnt:
+        result = deepcopy(new_result)
         for i in range(1, len(result)-1):
             for j in range(1, len(result[0])-1):
                 if result[i-1, j].all() != 0 or result[i, j-1].all() != 0 or result[i+1, j].all() != 0 or result[i, j+1].all() != 0:
                     new_result[i, j] = img_to_find[i, j]
+        fill_cnt -= 1
     return new_result
 
 
-def euclidean_method(img_to_find: np.ndarray, img_source: np.ndarray, is_area_fill: bool = False) -> np.ndarray:
-    return general_method("euclidean", img_to_find, img_source, is_area_fill)
+def euclidean_method(img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: int = 0) -> np.ndarray:
+    return general_method("euclidean", img_to_find, img_source, fill_cnt)
 
 
-def manhattan_method(img_to_find: np.ndarray, img_source: np.ndarray, is_area_fill: bool = False) -> np.ndarray:
-    return general_method("manhattan", img_to_find, img_source, is_area_fill)
+def manhattan_method(img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: int = 0) -> np.ndarray:
+    return general_method("manhattan", img_to_find, img_source, fill_cnt)
 
 
 def draw(image: np.ndarray, strawberry: np.ndarray):
-    imgs = [cv.cvtColor(image, cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, True),
-                                                                                                                                  cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry, True), cv.COLOR_BGR2RGB)]
+    imgs = [cv.cvtColor(image, cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, 2),
+                                                                                                                                  cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry, 2), cv.COLOR_BGR2RGB)]
     titles = ['origin', 'euclidean', 'euclidean with area fill',
               'manhattan', 'manhattan with area fill']
     cnt = len(imgs)
