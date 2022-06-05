@@ -73,9 +73,9 @@ def manhattan_method(img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: 
 
 
 def draw(image: np.ndarray, strawberry: np.ndarray):
-    imgs = [cv.cvtColor(image, cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, 2),
+    imgs = [cv.cvtColor(strawberry, cv.COLOR_BGR2RGB), cv.cvtColor(image, cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, 2),
                                                                                                                                   cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry, 2), cv.COLOR_BGR2RGB)]
-    titles = ['origin', 'euclidean', 'euclidean with area fill',
+    titles = ['strawberry', 'origin', 'euclidean', 'euclidean with area fill',
               'manhattan', 'manhattan with area fill']
     cnt = len(imgs)
     plt.figure(1, figsize=(10, 5))
