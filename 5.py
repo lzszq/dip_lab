@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from copy import deepcopy
 
 
+# 欧氏距离
 def euclidean(BGR_mean, tmp):
     t = 0
     for i, x in enumerate(BGR_mean):
@@ -11,6 +12,7 @@ def euclidean(BGR_mean, tmp):
     return np.sqrt(t)
 
 
+# 曼哈顿距离
 def manhattan(BGR_mean, tmp):
     t = 0
     for i, x in enumerate(BGR_mean):
@@ -18,6 +20,7 @@ def manhattan(BGR_mean, tmp):
     return t
 
 
+# 计算距离函数
 def distance(func_type: str, img: np.ndarray, BGR_mean: list, value: np.ndarray) -> np.ndarray:
     for i, item in enumerate(img):
         for j, _ in enumerate(item):
@@ -28,6 +31,7 @@ def distance(func_type: str, img: np.ndarray, BGR_mean: list, value: np.ndarray)
     return value
 
 
+# 通用方法
 def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: int = 0) -> np.ndarray:
     BGR = [i for i in cv.split(img_source)]
     BGR_mean = [np.mean(i) for i in BGR]
@@ -64,18 +68,20 @@ def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarr
     return new_result
 
 
+# 使用欧氏距离方法
 def euclidean_method(img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: int = 0) -> np.ndarray:
     return general_method("euclidean", img_to_find, img_source, fill_cnt)
 
 
+# 使用曼哈顿距离方法
 def manhattan_method(img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: int = 0) -> np.ndarray:
     return general_method("manhattan", img_to_find, img_source, fill_cnt)
 
 
-def draw(image: np.ndarray, strawberry: np.ndarray):
-    imgs = [cv.cvtColor(strawberry, cv.COLOR_BGR2RGB), cv.cvtColor(image, cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, 2),
-                                                                                                                                  cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry, 2), cv.COLOR_BGR2RGB)]
-    titles = ['strawberry', 'origin', 'euclidean', 'euclidean with area fill',
+def draw(image: np.ndarray, strawberry: np.ndarray, fill_cnt: int = 2):
+    imgs = [cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, fill_cnt), cv.COLOR_BGR2RGB), cv.cvtColor(
+        manhattan_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry, fill_cnt), cv.COLOR_BGR2RGB)]
+    titles = ['euclidean', 'euclidean with area fill',
               'manhattan', 'manhattan with area fill']
     cnt = len(imgs)
     plt.figure(1, figsize=(10, 5))
@@ -93,4 +99,4 @@ if __name__ == '__main__':
     strawberry = cv.imread('strawberry.png')
     # strawberry = cv.imread('little_strawberry.png')
 
-    draw(image, strawberry)
+    draw(image, strawberry, 3)

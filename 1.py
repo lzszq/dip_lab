@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from copy import deepcopy
 
 
+# 二值化函数
 def binarization(img: np.ndarray, threshold: int) -> np.ndarray:
     new_img = deepcopy(img)
     for i, item in enumerate(img):

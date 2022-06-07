@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from copy import deepcopy
 
 
+# 图像相加
 def add(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
     img1 = img1.astype(int)
     img2 = img2.astype(int)
@@ -21,6 +22,7 @@ def add(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
     return result.astype(np.uint8)
 
 
+# 图像相减
 def subtract(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
     img1 = img1.astype(int)
     img2 = img2.astype(int)
@@ -65,4 +67,3 @@ if __name__ == '__main__':
     img2 = cv.cvtColor(cv.imread('./demo1.jpg'), cv.COLOR_BGR2RGB)
     draw(img1, img2, add(img1, img2), "rgb")
     draw(img1, img2, subtract(img1, img2), "rgb")
-

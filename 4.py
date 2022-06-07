@@ -132,9 +132,10 @@ def canny(img: np.ndarray, D0: int, threshold_low: int, threshold_high: int) -> 
     return result.astype(np.uint8)
 
 
-def show_canny_result(img: np.ndarray, D0: int, threshold_low: int, threshold_high: int):
-    imgs = [img, canny(img, D0, threshold_low, threshold_high)]
-    titles = ['origin', 'canny']
+def show_canny_result(img: np.ndarray):
+    imgs = [img, canny(img, 50, 10, 30), canny(
+        img, 50, 30, 90), canny(img, 50, 50, 150)]
+    titles = ['origin', 'canny(10,30)', 'canny(30,90)', 'canny(50,150)']
     cnt = len(imgs)
     plt.figure(1, figsize=(10, 5))
     for i in range(cnt):
@@ -148,6 +149,4 @@ def show_canny_result(img: np.ndarray, D0: int, threshold_low: int, threshold_hi
 
 if __name__ == '__main__':
     img = get_data('./demo.jpg')
-    show_canny_result(img, 50, 10, 30)
-    show_canny_result(img, 50, 30, 90)
-    show_canny_result(img, 50, 50, 150)
+    show_canny_result(img)
