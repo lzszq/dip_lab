@@ -6,7 +6,7 @@ import sys
 sys.setrecursionlimit(100000)
 
 
-def get_data(addr: str = './demo.jpg') -> np.ndarray:
+def get_data(addr: str = './source/demo.jpg') -> np.ndarray:
     return cv.imread(addr, cv.IMREAD_GRAYSCALE)
 
 
@@ -148,5 +148,5 @@ def show_canny_result(img: np.ndarray):
 
 
 if __name__ == '__main__':
-    img = get_data('./demo.jpg')
+    img = get_data('./source/demo.jpg')
     show_canny_result(img)

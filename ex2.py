@@ -58,12 +58,12 @@ def draw(img1: np.ndarray, img2: np.ndarray, img: np.ndarray, mode: str = "gray"
 
 
 if __name__ == '__main__':
-    img1 = cv.imread('./demo.jpg', cv.IMREAD_GRAYSCALE)
-    img2 = cv.imread('./demo1.jpg', cv.IMREAD_GRAYSCALE)
+    img1 = cv.imread('./source/demo.jpg', cv.IMREAD_GRAYSCALE)
+    img2 = cv.imread('./source/demo1.jpg', cv.IMREAD_GRAYSCALE)
     draw(img1, img2, add(img1, img2), "gray")
     draw(img1, img2, subtract(img1, img2), "gray")
 
-    img1 = cv.cvtColor(cv.imread('./demo.jpg'), cv.COLOR_BGR2RGB)
-    img2 = cv.cvtColor(cv.imread('./demo1.jpg'), cv.COLOR_BGR2RGB)
+    img1 = cv.cvtColor(cv.imread('./source/demo.jpg'), cv.COLOR_BGR2RGB)
+    img2 = cv.cvtColor(cv.imread('./source/demo1.jpg'), cv.COLOR_BGR2RGB)
     draw(img1, img2, add(img1, img2), "rgb")
     draw(img1, img2, subtract(img1, img2), "rgb")

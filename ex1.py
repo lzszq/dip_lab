@@ -33,5 +33,5 @@ def draw(img: np.ndarray):
 
 
 if __name__ == '__main__':
-    img = cv.imread('./demo.jpg', cv.IMREAD_GRAYSCALE)
+    img = cv.imread('./source/demo.jpg', cv.IMREAD_GRAYSCALE)
     draw(img)

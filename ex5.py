@@ -95,8 +95,8 @@ def draw(image: np.ndarray, strawberry: np.ndarray, fill_cnt: int = 2):
 
 
 if __name__ == '__main__':
-    image = cv.imread('ex05.jpg')
-    strawberry = cv.imread('strawberry.png')
-    # strawberry = cv.imread('little_strawberry.png')
+    image = cv.imread('./source/ex05.jpg')
+    strawberry = cv.imread('./source/strawberry.png')
+    # strawberry = cv.imread('./source/little_strawberry.png')
 
     draw(image, strawberry, 3)
