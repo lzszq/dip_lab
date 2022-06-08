@@ -36,12 +36,14 @@ def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarr
     BGR = [i for i in cv.split(img_source)]
     BGR_mean = [np.mean(i) for i in BGR]
     value = distance(func_type, img_source, BGR_mean, np.zeros_like(BGR[0]))
+    # 计算用于比较的图片，得到比较的avg和std
     avg = np.sum(value) / (img_source.shape[0] * img_source.shape[1])
     std = np.std(value)
 
     tmp = distance(func_type, img_to_find, BGR_mean, np.zeros(
         (img_to_find.shape[0], img_to_find.shape[1])))
     result = deepcopy(img_to_find)
+    # 遍历图片，当符合颜色空间的条件是，则保留，反之置零丢弃
     for i, item in enumerate(tmp):
         for j, _ in enumerate(item):
             if func_type == "euclidean":
@@ -58,6 +60,7 @@ def general_method(func_type: str, img_to_find: np.ndarray, img_source: np.ndarr
                 result[i, j] = np.zeros_like(result[i, j])
 
     new_result = deepcopy(result)
+    # 为避免切割图像部分图像缺失，故采取遍历方法，对周围像素值不为零的点进行还原
     while fill_cnt:
         result = deepcopy(new_result)
         for i in range(1, len(result)-1):
@@ -78,6 +81,7 @@ def manhattan_method(img_to_find: np.ndarray, img_source: np.ndarray, fill_cnt: 
     return general_method("manhattan", img_to_find, img_source, fill_cnt)
 
 
+# 绘图函数
 def draw(image: np.ndarray, strawberry: np.ndarray, fill_cnt: int = 2):
     imgs = [cv.cvtColor(euclidean_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(euclidean_method(image, strawberry, fill_cnt), cv.COLOR_BGR2RGB), cv.cvtColor(
         manhattan_method(image, strawberry), cv.COLOR_BGR2RGB), cv.cvtColor(manhattan_method(image, strawberry, fill_cnt), cv.COLOR_BGR2RGB)]

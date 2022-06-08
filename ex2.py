@@ -9,9 +9,12 @@ def add(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
     img1 = img1.astype(int)
     img2 = img2.astype(int)
     result = deepcopy(img1)
+    # 遍历图片
     for i, item in enumerate(img1):
         for j, _ in enumerate(item):
             result[i, j] = np.add(img1[i, j], img2[i, j])
+            # 对于像素值大于255的点置为255
+            # 先尝试三通道赋值，再尝试通道赋值
             try:
                 for k, _ in enumerate(result[i, j]):
                     if result[i, j, k] > 255:
@@ -27,9 +30,12 @@ def subtract(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
     img1 = img1.astype(int)
     img2 = img2.astype(int)
     result = deepcopy(img1)
+    # 遍历图片
     for i, item in enumerate(img1):
         for j, _ in enumerate(item):
             result[i, j] = np.subtract(img1[i, j], img2[i, j])
+            # 对于像素值小于零的点进行置零操作
+            # 先尝试三通道赋值，再尝试通道赋值
             try:
                 for k, _ in enumerate(result[i, j]):
                     if result[i, j, k] < 0:
@@ -39,7 +45,7 @@ def subtract(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
                     result[i, j] = 0
     return result.astype(np.uint8)
 
-
+# 绘图函数
 def draw(img1: np.ndarray, img2: np.ndarray, img: np.ndarray, mode: str = "gray"):
     imgs = [img1, img2, img]
     titles = ["img1", "img2", "img"]

@@ -58,8 +58,8 @@ def canny(img: np.ndarray, D0: int, threshold_low: int, threshold_high: int) -> 
     # 非极大值抑制
     def NMS(gradients: np.ndarray, directions: np.ndarray) -> np.ndarray:
         nms = deepcopy(gradients[1:-1, 1:-1])
+        
         # 判断方向获取判断参数
-
         def get_t_weight(theta, weight):
             T = np.array([[0, 1, 1, 1], [1, 0, 1, 1], [
                          1, 0, 1, -1], [0, -1, 1, -1]])
@@ -87,6 +87,7 @@ def canny(img: np.ndarray, D0: int, threshold_low: int, threshold_high: int) -> 
                 for k in range(2):
                     g.append(gradients[i+ope[k]*t[0], j+ope[k]*t[1]])
                     g.append(gradients[i+ope[k]*t[2], j+ope[k]*t[3]])
+                # 若不是该方向最大值，则置为0
                 if g[0]*weight+g[1]*(1-weight) > gradients[i, j] or g[2]*weight+g[3]*(1-weight) > gradients[i, j]:
                     nms[i-1, j-1] = 0
         return nms
@@ -125,13 +126,13 @@ def canny(img: np.ndarray, D0: int, threshold_low: int, threshold_high: int) -> 
                     output_image[w, h] = 0
         return output_image
 
-    gaussian = gaussian_filter(img, D0)
-    gradients, directions = sobel(gaussian)
-    nms = NMS(gradients, directions)
-    result = double_threshold(nms, threshold_low, threshold_high)
+    gaussian = gaussian_filter(img, D0) # 高斯滤波
+    gradients, directions = sobel(gaussian) # 计算梯度幅值和方向角
+    nms = NMS(gradients, directions) # 非极大值抑制
+    result = double_threshold(nms, threshold_low, threshold_high) # 二阈值检测
     return result.astype(np.uint8)
 
-
+# 绘图函数
 def show_canny_result(img: np.ndarray):
     imgs = [img, canny(img, 50, 10, 30), canny(
         img, 50, 30, 90), canny(img, 50, 50, 150)]

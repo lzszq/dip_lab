@@ -7,15 +7,17 @@ from copy import deepcopy
 # 二值化函数
 def binarization(img: np.ndarray, threshold: int) -> np.ndarray:
     new_img = deepcopy(img)
+    # 遍历图片
     for i, item in enumerate(img):
         for j, _ in enumerate(item):
+            # 当像素值大于阈值时，置为255，反之置为0
             if img[i, j] >= threshold:
                 new_img[i, j] = 255
             else:
                 new_img[i, j] = 0
     return new_img
 
-
+# 绘图函数
 def draw(img: np.ndarray):
     imgs = []
     titles = []

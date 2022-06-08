@@ -10,9 +10,16 @@ def get_sub(x): return int(x[0]/2)+1
 
 # 自定义滤波器
 def custom_filter(func, img: np.ndarray, kernel_size: tuple = (3, 3)) -> np.ndarray:
+    '''
+    params:
+        func 自定义滤波函数
+        img 进行滤波的图片
+        kernel_size 卷积核的形状
+    '''
     result = deepcopy(img)
     add = get_add(kernel_size)
     sub = get_sub(kernel_size)
+    # 对图片遍历做卷积运算
     for i in range(sub, len(img)+1-sub):
         for j in range(sub, len(img[0])+1-sub):
             result[i, j] = func(img[i-sub:i+add, j-sub:j+add])
@@ -33,6 +40,7 @@ def laplace_(img: np.ndarray) -> np.ndarray:
     return custom_filter(func, img)
 
 
+# 绘图函数
 def draw(img: np.ndarray):
     imgs = [img, laplace(img), laplace_(img)]
     titles = ["origin", "laplace", "laplace_"]
